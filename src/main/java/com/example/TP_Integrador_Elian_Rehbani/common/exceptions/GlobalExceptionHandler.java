@@ -76,7 +76,7 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
     }
 
-    // 400 BAD REQUEST — validaciones de @Valid
+    // 400 BAD REQUEST — @Valid
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDTO> handleValidationExceptions(MethodArgumentNotValidException ex) {
         String errors = ex.getBindingResult().getFieldErrors().stream()
@@ -85,14 +85,14 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, errors);
     }
 
-    // 500 INTERNAL SERVER ERROR — catch-all de seguridad
+    // 500 INTERNAL SERVER ERROR
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleUnexpected(Exception ex) {
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                 "Error interno del servidor.");
     }
 
-    // Helper
+
     private ResponseEntity<ErrorResponseDTO> buildResponse(HttpStatus status, String message) {
         ErrorResponseDTO error = new ErrorResponseDTO(
                 LocalDateTime.now(),
