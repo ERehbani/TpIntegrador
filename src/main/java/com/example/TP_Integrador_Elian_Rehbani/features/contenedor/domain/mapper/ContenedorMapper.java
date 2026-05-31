@@ -1,5 +1,6 @@
 package com.example.TP_Integrador_Elian_Rehbani.features.contenedor.domain.mapper;
 
+import com.example.TP_Integrador_Elian_Rehbani.features.buque.BuqueEntity;
 import com.example.TP_Integrador_Elian_Rehbani.features.buque.domain.dto.BuqueResponse;
 import com.example.TP_Integrador_Elian_Rehbani.features.cliente.ClienteEntity;
 import com.example.TP_Integrador_Elian_Rehbani.features.cliente.domain.dto.ClienteResponse;
@@ -13,25 +14,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContenedorMapper {
 
-    public ContenedorEntity toEntity(ContenedorRequest contenedor, ClienteEntity cliente, PuertoEntity puerto){
+    public ContenedorEntity toEntity(ContenedorRequest contenedor, ClienteEntity cliente, PuertoEntity puerto, BuqueEntity buque){
         return ContenedorEntity.builder()
                 .codigoIdentificacion(contenedor.codigoIdentificacion())
                 .pesoToneladas(contenedor.pesoToneladas())
                 .activo(true)
                 .cliente(cliente)
+                .buque(buque)
                 .puerto(puerto)
                 .buque(null)
                 .build();
     }
 
     public ContenedorResponse toDto(ContenedorEntity entity){
-        ClienteResponse cliente =
-                new ClienteResponse(entity.getCliente().getId(), entity.getCliente().getRazonSocial(), entity.getCliente().getDni(), entity.getCliente().getEsVip(), entity.getCliente().getActivo());
-        PuertoResponse puerto =
-                new PuertoResponse(entity.getPuerto().getId(), entity.getPuerto().getNombre(), entity.getPuerto().getPais(), entity.getPuerto().getActivo());
+        ClienteResponse cliente = null;
+        if (entity.getCliente() != null) {
+            cliente = new ClienteResponse(entity.getCliente().getId(), entity.getCliente().getRazonSocial(), entity.getCliente().getDni(), entity.getCliente().getEsVip(), entity.getCliente().getActivo());
+        }
 
-        BuqueResponse buque =
-                new BuqueResponse(entity.getPuerto().getId(), entity.getBuque().getNombre(), entity.getBuque().getMatriculaImo(), entity.getBuque().getCapacidadMaximaToneladas(), entity.getBuque().getEstadoOperativo(), entity.getBuque().getActivo(), null);
+        PuertoResponse puerto = null;
+        if (entity.getPuerto() != null) {
+            puerto = new PuertoResponse(entity.getPuerto().getId(), entity.getPuerto().getNombre(), entity.getPuerto().getPais(), entity.getPuerto().getActivo());
+        }
+
+        BuqueResponse buque = null;
+        if (entity.getBuque() != null) {
+            buque = new BuqueResponse(entity.getBuque().getId(), entity.getBuque().getNombre(), entity.getBuque().getMatriculaImo(), entity.getBuque().getCapacidadMaximaToneladas(), entity.getBuque().getEstadoOperativo(), entity.getBuque().getActivo(), null, entity.getBuque().getPesoAcumulado());
+        }
 
         return new ContenedorResponse(
                 entity.getId(),

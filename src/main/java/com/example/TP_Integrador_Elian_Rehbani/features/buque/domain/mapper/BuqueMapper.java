@@ -37,7 +37,8 @@ public class BuqueMapper {
                 entity.getCapacidadMaximaToneladas(),
                 entity.getEstadoOperativo(),
                 entity.getActivo(),
-                puertos
+                puertos,
+                entity.getPesoAcumulado()
         );
     }
 }

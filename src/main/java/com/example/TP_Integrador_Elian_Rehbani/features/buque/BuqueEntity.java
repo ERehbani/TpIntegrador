@@ -36,6 +36,9 @@ public class BuqueEntity {
     @Column(name = "activo")
     private Boolean activo;
 
+    @Column(name = "peso_acumulado")
+    private Double pesoAcumulado;
+
     @ManyToMany
     @JoinTable(
             name = "buque_puerto",

@@ -12,6 +12,7 @@ public record BuqueResponse(
         Double capacidadMaximaToneladas,
         EBuqueEstado estadoOperativo,
         Boolean activo,
-        List<PuertoResponse> puertos
+        List<PuertoResponse> puertos,
+        Double pesoAcumulado
 ) {
 }

@@ -88,8 +88,9 @@ public class GlobalExceptionHandler {
     // 500 INTERNAL SERVER ERROR
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleUnexpected(Exception ex) {
+        ex.printStackTrace();
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR,
-                "Error interno del servidor.");
+                "Error interno del servidor: " + ex.getMessage());
     }
 
 

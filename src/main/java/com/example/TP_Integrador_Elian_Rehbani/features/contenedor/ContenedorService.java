@@ -45,6 +45,7 @@ public class ContenedorService {
 
     public ContenedorEntity getById(Long id){
         return repository.findById(id)
+                .filter(ContenedorEntity::getActivo)
                 .orElseThrow(() -> new ContenedorNoEncontradoException("Contenedor no encontrado"));
     }
 
@@ -58,8 +59,10 @@ public class ContenedorService {
                         .orElseThrow(() -> new ClienteNoEncontradoException("Cliente no encontrado"));
         PuertoEntity puerto = puertoRepository.findById(request.puertoId())
                 .orElseThrow(() -> new PuertoNoEncontradoException("Puerto no encontrado"));
+        BuqueEntity buque = buqueRepository.findById(request.buqueId())
+                .orElseThrow(() -> new BuqueNoEncontradoException("Buque no encontrado"));
 
-        ContenedorEntity entity = mapper.toEntity(request, cliente, puerto);
+        ContenedorEntity entity = mapper.toEntity(request, cliente, puerto, buque);
 
         return mapper.toDto(repository.save(entity));
     }
@@ -122,7 +125,7 @@ public class ContenedorService {
                 .stream()
                 .filter(b -> b.getNombre().equalsIgnoreCase(puertoContenedor))
                 .count();
-        boolean pesoExcedido = pesoAcumulado > buque.getCapacidadMaximaToneladas();
+        boolean pesoExcedido = (pesoAcumulado + contenedor.getPesoToneladas()) > buque.getCapacidadMaximaToneladas();
 
         if (!buque.getActivo() || !buque.getEstadoOperativo().equals(EBuqueEstado.EN_PUERTO))
             throw new BuqueNoActivoException("El buque para el embarque no esta disponible");
@@ -145,9 +148,22 @@ public class ContenedorService {
 
             contenedorNoVip.setBuque(null);
             repository.save(contenedorNoVip);
+
+            if (buque.getPesoAcumulado() != null) {
+                buque.setPesoAcumulado(buque.getPesoAcumulado() - contenedorNoVip.getPesoToneladas());
+            }
+            buqueRepository.save(buque);
         }
 
         contenedor.setBuque(buque);
+
+        if (buque.getPesoAcumulado() == null) {
+            buque.setPesoAcumulado(contenedor.getPesoToneladas());
+        } else {
+            buque.setPesoAcumulado(buque.getPesoAcumulado() + contenedor.getPesoToneladas());
+        }
+        buqueRepository.save(buque);
+
         return mapper.toDto(repository.save(contenedor));
     }
 }

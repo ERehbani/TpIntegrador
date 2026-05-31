@@ -25,7 +25,7 @@ public class ContenedorController {
     }
 
     @GetMapping("/{contenedorId}")
-    public ResponseEntity<ContenedorResponse> getById(Long contenedorId){
+    public ResponseEntity<ContenedorResponse> getById(@PathVariable Long contenedorId){
         return ResponseEntity.ok(service.findById(contenedorId));
     }
 
