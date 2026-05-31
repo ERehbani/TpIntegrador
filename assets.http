@@ -1,0 +1,202 @@
+### Crear cliente regular
+POST http://localhost:8080/api/clientes
+Content-Type: application/json
+
+{
+  "razonSocial": "Transportes del Sur S.A.",
+  "dni": "20345678",
+  "esVip": false
+}
+
+### Crear cliente VIP
+POST http://localhost:8080/api/clientes
+Content-Type: application/json
+
+{
+  "razonSocial": "Global Cargo Ltd.",
+  "dni": "30987654",
+  "esVip": true
+}
+
+### Obtener todos los clientes activos
+GET http://localhost:8080/api/clientes
+
+### Obtener cliente por id
+GET http://localhost:8080/api/clientes/1
+
+### Actualizar cliente
+PATCH http://localhost:8080/api/clientes/1
+Content-Type: application/json
+
+{
+  "razonSocial": "Transportes del Sur Actualizado"
+}
+
+### Dar de baja cliente (baja lógica)
+DELETE http://localhost:8080/api/clientes/1
+
+### Intentar dar de baja cliente con contenedores activos (debe fallar)
+DELETE http://localhost:8080/api/clientes/2
+
+### ============================================
+### BUQUE ENDPOINTS
+### ============================================
+
+### Crear buque en puerto
+POST http://localhost:8080/buque
+Content-Type: application/json
+
+{
+  "nombre": "MV Atlantic Star",
+  "matriculaImo": "IMO9123456",
+  "capacidadMaximaToneladas": 50000.0,
+  "estadoOperativo": "EN_PUERTO"
+}
+
+### Crear buque en ruta
+POST http://localhost:8080/buque
+Content-Type: application/json
+
+{
+  "nombre": "MV Pacific Dream",
+  "matriculaImo": "IMO9876543",
+  "capacidadMaximaToneladas": 75000.0,
+  "estadoOperativo": "EN_RUTA"
+}
+
+### Crear buque en mantenimiento
+POST http://localhost:8080/buque
+Content-Type: application/json
+
+{
+  "nombre": "MV Indian Ocean",
+  "matriculaImo": "IMO4567890",
+  "capacidadMaximaToneladas": 60000.0,
+  "estadoOperativo": "MANTENIMIENTO"
+}
+
+### Obtener todos los buques
+GET http://localhost:8080/buque
+
+### Obtener buque por id
+GET http://localhost:8080/buque/1
+
+### Actualizar buque
+PUT http://localhost:8080/buque/1
+Content-Type: application/json
+
+{
+  "nombre": "MV Atlantic Star Updated",
+  "matriculaImo": "IMO9123456",
+  "capacidadMaximaToneladas": 55000.0,
+  "estadoOperativo": "EN_RUTA"
+}
+
+### Eliminar buque
+DELETE http://localhost:8080/buque/1
+
+### ============================================
+### PUERTO ENDPOINTS
+### ============================================
+
+### Crear puerto
+POST http://localhost:8080/puerto
+Content-Type: application/json
+
+{
+  "nombre": "Puerto de Buenos Aires",
+  "pais": "Argentina"
+}
+
+### Crear puerto
+POST http://localhost:8080/puerto
+Content-Type: application/json
+
+{
+  "nombre": "Port of Rotterdam",
+  "pais": "Netherlands"
+}
+
+### Crear puerto
+POST http://localhost:8080/puerto
+Content-Type: application/json
+
+{
+  "nombre": "Port of Shanghai",
+  "pais": "China"
+}
+
+### Obtener todos los puertos
+GET http://localhost:8080/puerto
+
+### Obtener puerto por id
+GET http://localhost:8080/puerto/1
+
+### Actualizar puerto
+PUT http://localhost:8080/puerto/1
+Content-Type: application/json
+
+{
+  "nombre": "Puerto de Buenos Aires Updated",
+  "pais": "Argentina"
+}
+
+### Eliminar puerto
+DELETE http://localhost:8080/puerto/1
+
+### ============================================
+### CONTENEDOR ENDPOINTS
+### ============================================
+
+### Crear contenedor
+POST http://localhost:8080/contenedor
+Content-Type: application/json
+
+{
+  "codigoIdentificacion": "CNT001",
+  "pesoToneladas": 25.5,
+  "clienteId": 1,
+  "puertoId": 1,
+  "buqueId": 1
+}
+
+### Crear contenedor
+POST http://localhost:8080/contenedor
+Content-Type: application/json
+
+{
+  "codigoIdentificacion": "CNT002",
+  "pesoToneladas": 30.0,
+  "clienteId": 2,
+  "puertoId": 2,
+  "buqueId": 2
+}
+
+### Obtener todos los contenedores
+GET http://localhost:8080/contenedor
+
+### Obtener contenedor por id
+GET http://localhost:8080/contenedor/1
+
+### Actualizar contenedor
+PUT http://localhost:8080/contenedor/1
+Content-Type: application/json
+
+{
+  "codigoIdentificacion": "CNT001-UPDATED",
+  "pesoToneladas": 28.0,
+  "clienteId": 1,
+  "puertoId": 2,
+  "buqueId": 2
+}
+
+### Embarcar contenedor en otro buque
+PATCH http://localhost:8080/contenedor/1/embarcar
+Content-Type: application/json
+
+{
+  "buqueId": 2
+}
+
+### Eliminar contenedor
+DELETE http://localhost:8080/contenedor/1
