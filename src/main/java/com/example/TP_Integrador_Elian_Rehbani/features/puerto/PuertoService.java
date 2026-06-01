@@ -12,14 +12,16 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PuertoService {
+public class PuertoService implements IPuertoService{
     private final IPuertoRepository repository;
     private final PuertoMapper mapper;
 
-    public List<PuertoResponse> findAll(){
+    public List<PuertoResponse> findAll(String nombre){
         return repository.findAll()
                 .stream()
                 .filter(PuertoEntity::getActivo)
+                .filter(p -> nombre == null || nombre.isEmpty() ||
+                        p.getNombre().toLowerCase().contains(nombre.toLowerCase()))
                 .map(mapper::toDto)
                 .toList();
     }

@@ -18,8 +18,8 @@ public class BuqueController {
     private final BuqueService service;
 
     @GetMapping
-    public ResponseEntity<List<BuqueResponse>> getAll(){
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<BuqueResponse>> getAll(@RequestParam(required = false) String matriculaImo){
+        return ResponseEntity.ok(service.findAll(matriculaImo));
     }
 
     @GetMapping("/{buqueId}")

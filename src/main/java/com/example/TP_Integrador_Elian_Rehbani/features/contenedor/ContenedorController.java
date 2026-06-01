@@ -20,8 +20,8 @@ public class ContenedorController {
     private final ContenedorService service;
 
     @GetMapping
-    public ResponseEntity<List<ContenedorResponse>> getAll(){
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<ContenedorResponse>> getAll(@RequestParam(required = false) String codigoIdentificacion){
+        return ResponseEntity.ok(service.findAll(codigoIdentificacion));
     }
 
     @GetMapping("/{contenedorId}")

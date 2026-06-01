@@ -27,7 +27,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class ContenedorService {
+public class ContenedorService implements IContenedorService{
 
     private final IContenedorRepository repository;
     private final IClienteRepository clienteRepository;
@@ -35,10 +35,12 @@ public class ContenedorService {
     private final IBuqueRepository buqueRepository;
     private final ContenedorMapper mapper;
 
-    public List<ContenedorResponse> findAll(){
+    public List<ContenedorResponse> findAll(String codigoIdentificacion){
         return repository.findAll()
                 .stream()
                 .filter(ContenedorEntity::getActivo)
+                .filter(c -> codigoIdentificacion == null || codigoIdentificacion.isEmpty() ||
+                        c.getCodigoIdentificacion().toLowerCase().contains(codigoIdentificacion.toLowerCase()))
                 .map(mapper::toDto)
                 .toList();
     }

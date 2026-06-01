@@ -15,15 +15,16 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class ClienteService {
+public class ClienteService implements IClienteService {
     private final IClienteRepository repository;
     private final IContenedorRepository contenedorRepository;
     private final ClienteMapper mapper;
 
-    public List<ClienteResponse> findAll(){
+    public List<ClienteResponse> findAll(String clienteDni){
         return repository.findAll()
                 .stream()
                 .filter(ClienteEntity::getActivo)
+                .filter(c -> clienteDni == null || clienteDni.isEmpty() || c.getDni().contains(clienteDni))
                 .map(mapper::toDto)
                 .toList();
     }

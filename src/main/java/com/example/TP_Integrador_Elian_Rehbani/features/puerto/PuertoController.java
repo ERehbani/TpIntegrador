@@ -18,8 +18,8 @@ public class PuertoController {
     private final PuertoService service;
 
     @GetMapping
-    public ResponseEntity<List<PuertoResponse>> getAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
+    public ResponseEntity<List<PuertoResponse>> getAll(@RequestParam(required = false) String nombre){
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll(nombre));
     }
 
     @GetMapping("/{puertoId}")

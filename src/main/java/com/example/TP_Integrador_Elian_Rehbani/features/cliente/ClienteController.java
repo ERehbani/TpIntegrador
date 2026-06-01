@@ -18,8 +18,8 @@ public class ClienteController {
     private final ClienteService service;
 
     @GetMapping
-    public ResponseEntity<List<ClienteResponse>> getAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
+    public ResponseEntity<List<ClienteResponse>> getAll(@RequestParam(required = false) String clienteDni){
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll(clienteDni));
     }
 
     @GetMapping("/{clienteId}")

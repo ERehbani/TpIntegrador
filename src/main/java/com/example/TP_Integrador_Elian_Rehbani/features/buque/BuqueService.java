@@ -15,15 +15,17 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BuqueService {
+public class BuqueService implements IBuqueService{
     private final IBuqueRepository repository;
     private final IContenedorRepository contenedorRepository;
     private final BuqueMapper mapper;
 
-    public List<BuqueResponse> findAll(){
+    public List<BuqueResponse> findAll(String matriculaImo){
         return repository.findAll()
                 .stream()
                 .filter(BuqueEntity::getActivo)
+                .filter(b -> matriculaImo == null || matriculaImo.isEmpty() ||
+                b.getMatriculaImo().toLowerCase().contains(matriculaImo.toLowerCase()))
                 .map(mapper::toDto)
                 .toList();
     }
